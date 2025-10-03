@@ -1,6 +1,7 @@
-#include <torch/extension.h>
-#include <cuda.h>
+#include <c10/cuda/CUDAException.h>
+#include <ATen/cuda/CUDAContext.h>
 #include <cuda_runtime.h>
+#include <torch/extension.h>
 
 __global__ void rgbToGrayscaleKernel(unsigned char* Pin, unsigned char* Pout, int width, int height) {
     int col = blockIdx.x * blockDim.x + threadIdx.x;
@@ -36,7 +37,7 @@ torch::Tensor rgb_to_gray(torch::Tensor img) {
 
     auto result = torch::empty({height, width, 1}, torch::TensorOptions().dtype(torch::kByte).device(img.device()));
 
-    rgbToGrayscaleKernel<<<dimGrid, dimBlock, 0, torch::cuda::getCurrentCUDAStream()>>>(
+    rgbToGrayscaleKernel<<<dimGrid, dimBlock, 0, at::cuda::getCurrentCUDAStream()>>>(
         img.data_ptr<unsigned char>(), result.data_ptr<unsigned char>(), width, height);
 
     C10_CUDA_KERNEL_LAUNCH_CHECK();
