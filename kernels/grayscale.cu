@@ -17,12 +17,29 @@ __global__ void rgbToGrayscaleKernel(unsigned char* Pin, unsigned char* Pout, in
         unsigned char g = Pin[rgbOffset + 1];
         unsigned char b = Pin[rgbOffset + 2];
 
-        Pout[grayOffset] = 0.21 * r + 0.71 * g + 0.07 * b;
+        Pout[grayOffset] = 0.21f * r + 0.71f * g + 0.07f * b;
     }
 }
 
 inline unsigned int cdiv(unsigned int a, unsigned int b) {
     return (a + b - 1) / b;
+}
+
+// choosing optimal block dimensions
+dim3 getOptimalBlockDim(int width, int height) {
+    if (width < 16 || height < 16) {
+        return dim3(8, 8);
+    }
+    
+    if (width >= 16 && height >= 16) {
+        return dim3(16, 16);
+    }
+
+    if (width >= 1024 && height >= 1024) {
+        return dim3(32, 32);
+    }
+    
+    return dim3(16, 16); 
 }
 
 torch::Tensor rgb_to_gray(torch::Tensor img) {
@@ -32,13 +49,19 @@ torch::Tensor rgb_to_gray(torch::Tensor img) {
     const auto height = img.size(0);
     const auto width = img.size(1);
 
-    dim3 dimBlock(32, 32);
+    dim3 dimBlock = getOptimalBlockDim(width, height);
     dim3 dimGrid(cdiv(width, dimBlock.x), cdiv(height, dimBlock.y));
 
-    auto result = torch::empty({height, width, 1}, torch::TensorOptions().dtype(torch::kByte).device(img.device()));
+    auto result = torch::empty({height, width, 1}, 
+                               torch::TensorOptions()
+                                   .dtype(torch::kByte)
+                                   .device(img.device()));
 
     rgbToGrayscaleKernel<<<dimGrid, dimBlock, 0, at::cuda::getCurrentCUDAStream()>>>(
-        img.data_ptr<unsigned char>(), result.data_ptr<unsigned char>(), width, height);
+        img.data_ptr<unsigned char>(), 
+        result.data_ptr<unsigned char>(), 
+        width, 
+        height);
 
     C10_CUDA_KERNEL_LAUNCH_CHECK();
 
