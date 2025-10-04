@@ -2,15 +2,6 @@
 
 `fastcv` is a C++ CUDA rewrite with Pytorch bindings of the image filters in the OpenCV library.
 
-### Filters To implement
-
-- Grayscale [x]
-- Brightness []
-- Thresholding []
-- Mean Blur []
-- Gaussian Blur []
-- TBD
-
 ### How to run
 
 1. Clone the repo
