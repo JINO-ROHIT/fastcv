@@ -3,6 +3,8 @@
 #include <cuda_runtime.h>
 #include <torch/extension.h>
 
+#include "utils.cuh"
+
 __global__ void rgbToGrayscaleKernel(unsigned char* Pin, unsigned char* Pout, int width, int height) {
     int col = blockIdx.x * blockDim.x + threadIdx.x;
     int row = blockIdx.y * blockDim.y + threadIdx.y;
@@ -19,27 +21,6 @@ __global__ void rgbToGrayscaleKernel(unsigned char* Pin, unsigned char* Pout, in
 
         Pout[grayOffset] = 0.21f * r + 0.71f * g + 0.07f * b;
     }
-}
-
-inline unsigned int cdiv(unsigned int a, unsigned int b) {
-    return (a + b - 1) / b;
-}
-
-// choosing optimal block dimensions
-dim3 getOptimalBlockDim(int width, int height) {
-    if (width < 16 || height < 16) {
-        return dim3(8, 8);
-    }
-    
-    if (width >= 16 && height >= 16) {
-        return dim3(16, 16);
-    }
-
-    if (width >= 1024 && height >= 1024) {
-        return dim3(32, 32);
-    }
-    
-    return dim3(16, 16); 
 }
 
 torch::Tensor rgb_to_gray(torch::Tensor img) {

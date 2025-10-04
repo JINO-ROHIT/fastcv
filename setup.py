@@ -8,9 +8,10 @@ setup(
             name="fastcv",
             sources=[
                 "kernels/grayscale.cu",
+                "kernels/gaussian_blur.cu",
                 "kernels/module.cpp",
             ],
-            extra_compile_args={"cxx": ["-O3"]},
+            extra_compile_args={"cxx": ["-O2"]},
         ),
     ],
     cmdclass={"build_ext": BuildExtension},
