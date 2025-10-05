@@ -9,6 +9,7 @@ setup(
             sources=[
                 "kernels/grayscale.cu",
                 "kernels/gaussian_blur.cu",
+                "kernels/sobel.cu",
                 "kernels/module.cpp",
             ],
             extra_compile_args={"cxx": ["-O2"]},
