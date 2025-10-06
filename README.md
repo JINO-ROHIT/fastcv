@@ -40,7 +40,7 @@ Note: This was tested on an rtx 4060 ti.
 | 2048×2048  | 0.7343 ms    | 0.0398 ms     |
 | 4096×4096  | 3.1841 ms    | 0.2737 ms     |
 
-1. BLUR KERNEL
+2. BLUR KERNEL
 
 | Image Size | OpenCV (CPU) | fastcv (CUDA) |
 |-----------:|-------------:|--------------:|
@@ -48,6 +48,13 @@ Note: This was tested on an rtx 4060 ti.
 | 2048×2048  | 11.019 ms    | 2.4990 ms     |
 | 4096×4096  | 44.459 ms    | 10.012 ms     |
 
+3. SOBEL KERNEL
+
+| Image Size | OpenCV (CPU) | fastcv (CUDA) |
+|-----------:|-------------:|--------------:|
+| 1024×1024  | 23.287 ms    | 0.0373 ms     |
+| 2048×2048  | 94.812 ms    | 0.0808 ms     |
+| 4096×4096  | 384.83 ms    | 0.3223 ms     |
 
 ### TO-DO
 
