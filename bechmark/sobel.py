@@ -5,13 +5,13 @@ import torch
 import fastcv
 import numpy as np
 
-def benchmark_gray(sizes=[1024, 2048, 4096], runs=50):
+def benchmark_sobel(sizes=[1024, 2048, 4096], runs=50):
     results = []
     
     for size in sizes:
         print(f"\n=== Benchmarking {size}x{size} image ===")
         
-        img_np = np.random.randint(0, 256, (size, size, 3), dtype=np.uint8)
+        img_np = np.random.randint(0, 256, (size, size), dtype=np.uint8)
         img_torch = torch.from_numpy(img_np).cuda()
 
         start = time.perf_counter()
@@ -39,7 +39,7 @@ def benchmark_gray(sizes=[1024, 2048, 4096], runs=50):
 
 
 if __name__ == "__main__":
-    results = benchmark_gray()
+    results = benchmark_sobel()
     print("\n=== Final Results ===")
     print("Size\t\tOpenCV (CPU)\tfastcv (CUDA)")
     for size, cv_time, fc_time in results:

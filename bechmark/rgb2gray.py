@@ -5,7 +5,7 @@ import torch
 import fastcv
 import numpy as np
 
-def benchmark_gray(sizes=[1024, 2048, 4096], runs=50):
+def benchmark_rgb2gray(sizes=[1024, 2048, 4096], runs=50):
     results = []
     
     for size in sizes:
@@ -35,7 +35,7 @@ def benchmark_gray(sizes=[1024, 2048, 4096], runs=50):
 
 
 if __name__ == "__main__":
-    results = benchmark_gray()
+    results = benchmark_rgb2gray()
     print("\n=== Final Results ===")
     print("Size\t\tOpenCV (CPU)\tfastcv (CUDA)")
     for size, cv_time, fc_time in results:
