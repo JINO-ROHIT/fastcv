@@ -40,7 +40,7 @@ Note: This was tested on an rtx 4060 ti.
 | 2048×2048  | 0.7343 ms    | 0.0398 ms     |
 | 4096×4096  | 3.1841 ms    | 0.2737 ms     |
 
-2. BLUR KERNEL
+2. BOX BLUR KERNEL
 
 | Image Size | OpenCV (CPU) | fastcv (CUDA) |
 |-----------:|-------------:|--------------:|
