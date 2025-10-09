@@ -35,7 +35,7 @@ __global__ void blurKernel(unsigned char *in, unsigned char *out, int w, int h, 
 }
 
 
-torch::Tensor gaussian_blur(torch::Tensor img, int blurSize) {
+torch::Tensor box_blur(torch::Tensor img, int blurSize) {
     assert(img.device().type() == torch::kCUDA);
     assert(img.dtype() == torch::kByte);
 

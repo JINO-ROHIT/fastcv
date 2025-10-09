@@ -2,7 +2,7 @@
 
 // forward declarations
 torch::Tensor rgb_to_gray(torch::Tensor img);
-torch::Tensor gaussian_blur(torch::Tensor img, int blurSize);
+torch::Tensor box_blur(torch::Tensor img, int blurSize);
 torch::Tensor sobel(torch::Tensor img);
 torch::Tensor dilation(torch::Tensor img, int filterSize);
 
