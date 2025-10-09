@@ -11,6 +11,7 @@ setup(
                 "kernels/box_blur.cu",
                 "kernels/sobel.cu",
                 "kernels/dilation.cu",
+                "kernels/erosion.cu",
                 "kernels/module.cpp",
             ],
             extra_compile_args={"cxx": ["-O2"]},
